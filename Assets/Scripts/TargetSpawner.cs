@@ -38,7 +38,7 @@ public class TargetSpawner : MonoBehaviour, IDataPersistent
 
     private void SpawnTarget()
     {
-        if (spawnCount <= maxSpawnCount)
+        if (spawnCount < maxSpawnCount)
         {
             // randomly pick a spawn point to spawn a target
             int rand = Random.Range(0, spawnPoints.Length);
@@ -54,11 +54,6 @@ public class TargetSpawner : MonoBehaviour, IDataPersistent
 
     public void SaveData(ref GameData data)
     {
-        data.maxSpawnCount = maxSpawnCount;
-    }
-
-    private void OnApplicationQuit()
-    {
-        maxSpawnCount++;
+        data.maxSpawnCount = maxSpawnCount + 1;
     }
 }

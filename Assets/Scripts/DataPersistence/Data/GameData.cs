@@ -8,6 +8,6 @@ public class GameData
     
     public GameData()
     {
-        this.maxSpawnCount = TargetSpawner.instance.maxSpawnCount;
+        this.maxSpawnCount = 1;
     }
 }
