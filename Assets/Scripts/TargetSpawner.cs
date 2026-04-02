@@ -1,15 +1,23 @@
+using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-public class TargetSpawner : MonoBehaviour
+public class TargetSpawner : MonoBehaviour, IDataPersistent
 {
+    public static TargetSpawner instance;
+    
     [SerializeField] GameObject targetPrefab;
     [SerializeField] Transform[] spawnPoints;
     [SerializeField] float spawnInterval = 1f;
-    [SerializeField] int maxSpawnCount = 10;
+    [SerializeField] private TextMeshProUGUI maxSpawnText;
+    public int maxSpawnCount = 10;
     private int spawnCount = 0;
     void Start()
     {
+        if (instance == null) instance = this;
+        maxSpawnText.text = maxSpawnCount.ToString();
         StartCoroutine(Spawn());
     }
 
@@ -37,5 +45,20 @@ public class TargetSpawner : MonoBehaviour
             GameObject target = Instantiate(targetPrefab, spawnPoints[rand].position, Quaternion.identity);
             spawnCount++;
         }
+    }
+
+    public void LoadData(GameData data)
+    {
+        this.maxSpawnCount = data.maxSpawnCount;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.maxSpawnCount = maxSpawnCount;
+    }
+
+    private void OnApplicationQuit()
+    {
+        maxSpawnCount++;
     }
 }
